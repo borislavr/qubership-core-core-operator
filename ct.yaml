@@ -2,5 +2,6 @@ chart-dirs:
   - helm-templates/core-operator
 charts:
   - helm-templates/core-operator
-helm-lint-extra-args: '--set DEPLOYMENT_SESSION_ID=id_1"
+helm-lint-extra-args: --set DEPLOYMENT_SESSION_ID=id_1
 validate-maintainers: false
+helm-extra-args: --timeout 800s
