@@ -42,7 +42,7 @@ jobs:
         if: github.event_name == 'pull_request'
         id: list-changed
         run: |
-          ct list-changed --target-branch ${{ github.event.pull_request.base.ref }} --debug
+          ct list-changed --target-branch ${{ github.event.pull_request.base.ref }}
           changed=$(ct list-changed --target-branch ${{ github.event.pull_request.base.ref }})
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
