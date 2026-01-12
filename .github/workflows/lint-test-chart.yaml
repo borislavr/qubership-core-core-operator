@@ -38,21 +38,8 @@ jobs:
       - name: "Set up chart-testing"
         uses: helm/chart-testing-action@v2.8.0
 
-      - name: "Run chart-testing (list-changed)"
-        if: github.event_name == 'pull_request'
-        id: list-changed
-        run: |
-          ct list-changed --target-branch=${{ github.event.pull_request.base.ref }} --chart-dirs=${CHARTS_TO_TEST}
-          changed=$(ct list-changed --target-branch=${{ github.event.pull_request.base.ref }} --chart-dirs=${CHARTS_TO_TEST})
-          # if [[ -n "$changed" ]]; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "changed=true"
-          # else
-          #  echo "changed=false"
-          # fi
-
       - name: "Run chart-testing (lint) on pull_request"
-        if: github.event_name == 'pull_request' && steps.list-changed.outputs.changed == 'true'
+        if: github.event_name == 'pull_request'
         run: ct lint --chart-dirs=${CHARTS_TO_TEST} --charts=${CHARTS_TO_TEST} --debug --validate-maintainers=false --target-branch=${{ github.event.pull_request.base.ref }}
 
       - name: "Run chart-testing (lint) on workflow_dispatch"
@@ -60,11 +47,10 @@ jobs:
         run: ct lint --chart-dirs=${CHARTS_TO_TEST} --charts=${CHARTS_TO_TEST} --debug --validate-maintainers=false
 
       - name: "Create kind cluster"
-        if: github.event_name == 'workflow_dispatch' || steps.list-changed.outputs.changed == 'true'
         uses: helm/kind-action@92086f6be054225fa813e0a4b13787fc9088faab  # v1.13.0
 
       - name: "Run chart-testing (install) on pull_request"
-        if: github.event_name == 'pull_request' && steps.list-changed.outputs.changed == 'true'
+        if: github.event_name == 'pull_request'
         run: ct install --chart-dirs=${CHARTS_TO_TEST} --charts=${CHARTS_TO_TEST} --target-branch=${{ github.event.pull_request.base.ref }}
 
       - name: "Run chart-testing (install) on workflow_dispatch"
