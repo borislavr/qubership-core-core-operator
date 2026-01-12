@@ -42,8 +42,8 @@ jobs:
         if: github.event_name == 'pull_request'
         id: list-changed
         run: |
-          ct list-changed --target-branch=${{ github.event.pull_request.base.ref }} --chart-dirs=${CHARTS_TO_TEST} --charts=${CHARTS_TO_TEST}
-          changed=$(ct list-changed --target-branch=${{ github.event.pull_request.base.ref }} --chart-dirs=${CHARTS_TO_TEST} --charts=${CHARTS_TO_TEST})
+          ct list-changed --target-branch=${{ github.event.pull_request.base.ref }} --chart-dirs=${CHARTS_TO_TEST}
+          changed=$(ct list-changed --target-branch=${{ github.event.pull_request.base.ref }} --chart-dirs=${CHARTS_TO_TEST})
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "changed=true"
