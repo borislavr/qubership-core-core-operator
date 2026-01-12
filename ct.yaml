@@ -1,0 +1,7 @@
+chart-dirs:
+  - helm-templates/core-operator
+charts:
+  - helm-templates/core-operator
+helm-lint-extra-args:
+  - '--set DEPLOYMENT_SESSION_ID=id_1"
+validate-maintainers: false
